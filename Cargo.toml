@@ -16,7 +16,12 @@ name = "try_default"
 version = "1.0.0"
 authors = ["Joseph Lenton <josephlenton@gmail.com>"]
 description = "A trait to optionally get the Default if present, or None if there is no Default."
-keywords = ["try", "default"]
+keywords = ["try", "default", "no_std"]
 license = "MIT"
 
 [dependencies]
+
+[features]
+default = ["std"]
+std = []
+specialize = []

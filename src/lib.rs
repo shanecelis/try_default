@@ -1,11 +1,12 @@
-#![feature(specialization)]
+#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(feature = "specialize", feature(specialization))]
 
 ///
 /// A trait for all types!
 ///
 /// If the type has a `Default` value,
 ///
-/// ```
+/// ```ignore
 ///     use ::try_default::TryDefault;
 ///
 ///     // Set to `Some(0)`.
@@ -23,6 +24,7 @@ pub trait TryDefault<V> {
     fn try_default() -> Option<V>;
 }
 
+#[cfg(feature = "specialize")]
 impl<V> TryDefault<V> for V {
     default fn try_default() -> Option<V> {
         None
@@ -61,6 +63,7 @@ mod tests {
         assert_eq!(n, Some(u32::default()));
     }
 
+    #[cfg(feature = "specialize")]
     #[test]
     fn it_should_return_none_when_used_on_core_without_default() {
         let f = <::std::fs::File>::try_default();
@@ -73,6 +76,7 @@ mod tests {
         assert_eq!(n, Some(IsDefault::default()));
     }
 
+    #[cfg(feature = "specialize")]
     #[test]
     fn it_returns_none_on_non_default_types() {
         let n = <NonDefault>::try_default();
